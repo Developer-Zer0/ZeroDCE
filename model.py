@@ -4,7 +4,7 @@ import torch.nn as nn
 # Main CNN model
 class Model(nn.Module):
 
-	def __init__(self):
+	def __init__(self, n):
 
 		super(Model, self).__init__()
 
@@ -14,7 +14,7 @@ class Model(nn.Module):
 		self.conv3_32 = nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1)
 		self.conv32_32 = nn.Conv2d(32, 32, kernel_size=3, stride=1, padding=1)
 		self.conv64_32 = nn.Conv2d(64, 32, kernel_size=3, stride=1, padding=1)
-		self.conv64_24 = nn.Conv2d(64, 24, kernel_size=3, stride=1, padding=1)
+		self.conv64_3n = nn.Conv2d(64, 3*n, kernel_size=3, stride=1, padding=1)
 
 	# Total of 7 layers with skip connections
 	def forward(self, inpt):
@@ -27,6 +27,6 @@ class Model(nn.Module):
 		output5 = self.relu(self.conv64_32(torch.cat([output4, output3], dim=1)))
 		output6 = self.relu(self.conv64_32(torch.cat([output5, output2], dim=1)))
 
-		output7 = self.tanh(self.conv64_24(torch.cat([output6, output1], dim=1)))
+		output7 = self.tanh(self.conv64_3n(torch.cat([output6, output1], dim=1)))
 
 		return output7

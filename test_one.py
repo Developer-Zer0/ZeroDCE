@@ -69,13 +69,13 @@ image_locs = glob.glob(dataset_directory + '/*.jpg')
 test_set = image_locs[int(0.8*len(image_locs)):]
 test_image = test_set[randrange(len(test_set))]
 
-dataset = ImageDataset([test_image], transform=transforms.Compose([Rescale(256), ToTensor(),]))
+dataset = ImageDataset([test_image], transform=transforms.Compose([Rescale(512), ToTensor(),]))
 
-image_size = 256
+image_size = 512
 batch_size = 8
 n_epochs = 10
 n = 8
-model_path = 'model/model_dce_1.pkl'
+model_path = 'model/model_dce_2.pkl'
 model = pickle.load(open(model_path, 'rb'))
 
 img = dataset[0]
