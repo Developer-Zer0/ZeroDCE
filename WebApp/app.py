@@ -16,7 +16,7 @@ import matplotlib
 
 class Model(nn.Module):
 
-	def __init__(self):
+	def __init__(self, n):
 
 		super(Model, self).__init__()
 
@@ -26,8 +26,9 @@ class Model(nn.Module):
 		self.conv3_32 = nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1)
 		self.conv32_32 = nn.Conv2d(32, 32, kernel_size=3, stride=1, padding=1)
 		self.conv64_32 = nn.Conv2d(64, 32, kernel_size=3, stride=1, padding=1)
-		self.conv64_24 = nn.Conv2d(64, 24, kernel_size=3, stride=1, padding=1)
+		self.conv64_3n = nn.Conv2d(64, 3*n, kernel_size=3, stride=1, padding=1)
 
+	# Total of 7 layers with skip connections
 	def forward(self, inpt):
 
 		output1 = self.relu(self.conv3_32(inpt.float()))
@@ -38,7 +39,7 @@ class Model(nn.Module):
 		output5 = self.relu(self.conv64_32(torch.cat([output4, output3], dim=1)))
 		output6 = self.relu(self.conv64_32(torch.cat([output5, output2], dim=1)))
 
-		output7 = self.tanh(self.conv64_24(torch.cat([output6, output1], dim=1)))
+		output7 = self.tanh(self.conv64_3n(torch.cat([output6, output1], dim=1)))
 
 		return output7
 
@@ -58,19 +59,20 @@ def ToTensor(sample):
 
 def Enhance(img_array):
     h,w,c = img_array.shape
+    res = 512
     if c != 3:
         st.warning('The input image is not of type RGB, try using another image.')
         st.stop()
     if h != w:
         st.warning('The input image ratio is not 1:1. Hence, you may observe distortions in the result.')
-    img = Rescale(img_array, 256,256)
+    img = Rescale(img_array, res,res)
     img = ToTensor(img)
     n = 8
-    model_path = 'model1.pkl'
+    model_path = 'model2.pkl'
     model = pickle.load(open(model_path, 'rb'))
     img = img.unsqueeze(0)
     a = model(img)
-    a_n = a.reshape(1, n, 3, 256, 256)
+    a_n = a.reshape(1, n, 3, res, res)
     LE = img
     for iter in range(n):
 	    LE = LE + torch.mul(torch.mul(a_n[0][iter], LE), (torch.ones(LE.shape) - LE))
