@@ -15,9 +15,9 @@ Complete model which will iteratively apply pixel-wise transformations to an ima
 </p>
 
 ## Loss Functions
-* Spatial Loss
+* Spatial Consistency Loss
 * Exposure Control Loss
-* Color Loss
+* Color Constancy Loss
 * Illumination Smoothness Loss
 
 ## Prerequisites
