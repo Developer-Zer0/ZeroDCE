@@ -90,9 +90,9 @@ if __name__ == '__main__':
 	train_set = image_locs[:int(0.8*len(image_locs))]
 
 	# Initialize image dataset
-	dataset = ImageDataset(train_set, transform=transforms.Compose([Rescale(256),ToTensor()]))
+	dataset = ImageDataset(train_set, transform=transforms.Compose([Rescale(512),ToTensor()]))
 
-	image_size = 256
+	image_size = 512
 	batch_size = 8
 	n_epochs = 10
 	n = 8
