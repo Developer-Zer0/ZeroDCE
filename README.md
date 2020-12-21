@@ -1,4 +1,4 @@
-# Zero-Reference Deep Curve Estimation for Low-Light Image Enhancement (ZeroDCE)
+# Zero-Reference Deep Curve Estimation (ZeroDCE) for Low-Light Image Enhancement
 PyTorch implementation of [Zero-Reference Deep Curve Estimation for Low-Light Image Enhancement](https://arxiv.org/pdf/2001.06826.pdf) Chongyi Li et al.
 
 ## Main Model Architecture
@@ -13,6 +13,12 @@ Complete model which will iteratively apply pixel-wise transformations to an ima
 <p align="center">
 <img src="Assets/CNN_model_architecture.png">
 </p>
+
+## Loss Functions
+* Spatial Loss
+* Exposure Control Loss
+* Color Loss
+* Illumination Smoothness Loss
 
 ## Prerequisites
 * Pytorch
